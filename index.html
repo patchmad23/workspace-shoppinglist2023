@@ -50,14 +50,33 @@
       firebase.initializeApp(firebaseConfig);
       const db = firebase.firestore();
 
+
+    $('li').remove();
+    
+    db.collection("shoppinglist").get().then((querySnapshot)=>{
+      querySnapshot.forEach((doc) => {
+        var item = doc.data().item;
+        console.log("loading.... ", item);
+      })
+      //update the list
+
+    });
+    //$('li').click();
+
     // Save the list to database
     $("#save").click(function(){
       //testing if database is connected
-      $(this).text("Saved");
-      db.collection("shoppinglist").add({
+      //$(this).text("Saved");
+      $('li').each(function(){
+        var value = $(this).text();
+        console.log("Saving", value);
+        db.collection("shoppinglist").add(value);
+      });
+
+      /*db.collection("shoppinglist").add({
         item:"apple"
 
-      });
+      });*/
 
     });
 
